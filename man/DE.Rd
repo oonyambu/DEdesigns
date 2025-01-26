@@ -7,18 +7,18 @@
 \alias{maximinLHD}
 \title{Differential Evolution}
 \usage{
-DE(n, m, s = n, NP = 100, itermax = 1000, pMut =0.2, pCR = 0.3,
-          pGBest = 0.9, replicates = 1, seed = sample(1e7,1), ncores = NULL,
+DE(n, m, s = n, p = 15L, NP = 100L, itermax = 1000L, pMut = 0.2, pCR = 0.3,
+          pGBest = 0.9, replicates = 1L, seed = sample(1e7,1), ncores = NULL,
           method = c("UniPro", "MaxPro"))
 
-UniPro(n, m, s = n, NP = 100, itermax = 1000, pMut =0.2, pCR = 0.3,
-       pGBest = 0.9, replicates = 1, seed = sample(1e7,1), ncores =NULL)
+UniPro(n, m, s = n, NP = 100L, itermax = 1000L, pMut = 0.2, pCR = 0.3,
+       pGBest = 0.9, replicates = 1L, seed = sample(1e7,1), ncores = NULL)
 
-MaxPro(n, m, s = n, NP = 100, itermax = 1000, pMut =0.2, pCR = 0.3,
-       pGBest = 0.9, replicates = 1, seed = sample(1e7,1), ncores =NULL)
+MaxPro(n, m, NP = 100L, itermax = 1000L, pMut =0.2, pCR = 0.3,
+       pGBest = 0.9, replicates = 1L, seed = sample(1e7,1), ncores = NULL)
 
-maximinLHD(n, m, s = n, NP = 100, itermax = 1000, pMut =0.2, pCR = 0.3,
-       pGBest = 0.9, replicates = 1, seed = sample(1e7,1), ncores =NULL)
+maximinLHD(n, m, p = 15L, NP = 100L, itermax = 1000L, pMut = 0.2, pCR = 0.3,
+       pGBest = 0.9, replicates = 1L, seed = sample(1e7,1), ncores = NULL)
 }
 \arguments{
 \item{n}{number of rows(observations)}
@@ -26,6 +26,8 @@ maximinLHD(n, m, s = n, NP = 100, itermax = 1000, pMut =0.2, pCR = 0.3,
 \item{m}{number of columns(variables/factors)}
 
 \item{s}{number of levels. Default = n}
+
+\item{p}{the exponent for method maximinLHD. default is 15}
 
 \item{NP}{initial population size. Default = 100}
 
@@ -41,7 +43,7 @@ maximinLHD(n, m, s = n, NP = 100, itermax = 1000, pMut =0.2, pCR = 0.3,
 
 \item{seed}{seed to be set for reproducibility}
 
-\item{method}{The criterion to be optimized. Only UniPro, MaxPro are implemented}
+\item{method}{The criterion to be optimized. Only UniPro, MaxPro, maximinLHD are implemented}
 
 \item{ncores}{number f cores to be used for parallelization/multi-threading.}
 }

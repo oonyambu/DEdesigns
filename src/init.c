@@ -7,12 +7,12 @@
 
 static criteria PHI_FUNS[3] = {unipro, maxpro, maximinLHD};
 
-SEXP phi(SEXP R_X, SEXP R_s, SEXP R_METHOD);
+SEXP phi(SEXP R_X, SEXP R_s, SEXP R_r, SEXP R_METHOD);
 
 SEXP DE(SEXP R_n, SEXP R_m, SEXP R_s, SEXP R_NP,
         SEXP R_itermax, SEXP R_pMut, SEXP R_pCR,
         SEXP R_pGBest, SEXP R_replicates, SEXP R_seed,
-        SEXP R_cores, SEXP R_METHOD);
+        SEXP R_cores, SEXP R_METHOD, SEXP R_r);
 
 SEXP detectCores(){
   SEXP R_out = PROTECT(allocVector(INTSXP, 1));
@@ -35,20 +35,21 @@ void R_init_RcppProgressExample(DllInfo *Info) {
 }
 
 
-SEXP phi(SEXP R_X, SEXP R_s, SEXP R_method){
+SEXP phi(SEXP R_X, SEXP R_s,SEXP R_r,  SEXP R_method){
   if (!isMatrix(R_X)) {
     Rf_error("Input must be a matrix.");
   }
   R_len_t n = nrows(R_X);
   R_len_t m = ncols(R_X);
   int s = INTEGER(R_s)[0];
+  int r = INTEGER(R_r)[0];
   int * data = INTEGER(R_X);
   SEXP R_out = PROTECT(allocVector(REALSXP, 1));
 
   criteria PHI = PHI_FUNS[INTEGER(R_method)[0] - 1];
 
   REAL(R_out)[0] = PHI(data,
-       initializeParams(n, m, s, 0, 0, 0.,0., 0., 1, 1ll));
+       initializeParams(n, m, s, 0, 0, 0.,0., 0., 1, 1ll, r));
   UNPROTECT(1);
   return R_out;
 }
@@ -57,12 +58,13 @@ SEXP phi(SEXP R_X, SEXP R_s, SEXP R_method){
 SEXP DE(SEXP R_n, SEXP R_m, SEXP R_s, SEXP R_NP,
             SEXP R_itermax, SEXP R_pMut, SEXP R_pCR,
             SEXP R_pGBest, SEXP R_replicates, SEXP R_seed,
-            SEXP R_cores, SEXP R_method){
+            SEXP R_cores, SEXP R_method, SEXP R_r){
 
 
   int n = INTEGER(R_n)[0];
   int m = INTEGER(R_m)[0];
   int s = INTEGER(R_s)[0];
+  int r = INTEGER(R_r)[0];
   int NP = INTEGER(R_NP)[0];
   int itermax = INTEGER(R_itermax)[0];
   int replicates = INTEGER(R_replicates)[0];
@@ -93,7 +95,7 @@ SEXP DE(SEXP R_n, SEXP R_m, SEXP R_s, SEXP R_NP,
   criteria phi = PHI_FUNS[method];
   DE_CC(n, m, s, NP, itermax, pMut, pCR, pGBest,
         replicates, seed, phiValues, timeTaken,
-        bestX, cores, phi);
+        bestX, cores, phi, r);
 
   INTEGER(dims)[0] = n;
   INTEGER(dims)[1] = m;
@@ -104,9 +106,9 @@ SEXP DE(SEXP R_n, SEXP R_m, SEXP R_s, SEXP R_NP,
   SET_VECTOR_ELT(R_out, 2, R_bestX);
 
 
-  SET_STRING_ELT(names, 0, mkChar("optValues"));
+  SET_STRING_ELT(names, 0, mkChar("measure"));
   SET_STRING_ELT(names, 1, mkChar("timeTaken"));
-  SET_STRING_ELT(names, 2, mkChar("bestX"));
+  SET_STRING_ELT(names, 2, mkChar("Design"));
   setAttrib(R_out, R_NamesSymbol, names);
 
 

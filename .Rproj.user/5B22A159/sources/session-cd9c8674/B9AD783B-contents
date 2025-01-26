@@ -31,22 +31,6 @@ void swapVecUsingVec(int *vec, int *v){
 
 
 
-
-
-// void dist(int * data, int i, int j, paramsPtr p,
-//           double * col, double *colsq){
-
-//   double row = 0;
-//   #pragma omp parallel for simd simdlen(8) reduction(+:row)
-//   for(int k = 0; k < p->m; k++)
-//     row += abs(data[i + k * p->n] - data[j + k * p->n]);
-//   col[i] +=row;
-//   col[j] +=row;
-//   colsq[i] += row * row;
-//   colsq[j] += row * row;
-// }
-
-
 void randomlhs(dePtr de, paramsPtr p, criteria phi){
   int *index = allocVec(p->n);
   #pragma omp parallel for simd simdlen(8)
@@ -76,7 +60,7 @@ void randomlhs(dePtr de, paramsPtr p, criteria phi){
 
 paramsPtr initializeParams(int n, int m, int s, int NP, int itermax,
                            double pMut,double pCR, double pGbest, int replications,
-                           long int seed){
+                           long int seed, int r){
   paramsPtr p = (paramsPtr)malloc(sizeof(params));
   p->n = n;
   p->m = m;
@@ -90,7 +74,7 @@ paramsPtr initializeParams(int n, int m, int s, int NP, int itermax,
   p->seed = seed;
   p->size = n*m;
   p->len = p->size * NP;
-  p->r = 15;
+  p->r = r;
   double p4 = pow(n, 4);
   double numerator = 4*(5.0*m - 2)*p4 + 30.0*(3*m-5)*s*s + 15*m + 33;
   double denom = 720.0*(m - 1)*p4;
@@ -203,7 +187,7 @@ void progressbar(int * completed, int replications){
 void DE_CC(int n, int m, int s, int NP, int itermax,
           double pMut, double pCR, double pGbest,
           int replications, unsigned int seed, double * vals,
-          double *timeTaken, int * bestX, int numCores, criteria phi)
+          double *timeTaken, int * bestX, int numCores, criteria phi, int r)
 {
   struct timespec start, end;
   clock_gettime(CLOCK_MONOTONIC, &start);
@@ -212,7 +196,7 @@ void DE_CC(int n, int m, int s, int NP, int itermax,
   int numThreads = omp_get_max_threads();
   printf("\n Total number of Cores: %d ---- Using: ", numThreads);
   paramsPtr p = initializeParams(n, m, s, NP, itermax,
-                                 pMut, pCR, pGbest, replications, seed);
+                                 pMut, pCR, pGbest, replications, seed, r);
   int completed = 0;
   numThreads = numThreads > numCores? numCores: numThreads - 1;
   printf("%d\n", numThreads);

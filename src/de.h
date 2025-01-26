@@ -32,12 +32,12 @@ typedef struct {
 
 paramsPtr initializeParams(int n, int m, int s, int NP, int itermax,
                            double pMut,double pCR, double pGbest, int replications,
-                           long int seed);
+                           long int seed, int r);
 
 typedef double (*criteria)(int *, paramsPtr);
 
 void DE_CC(int n, int m, int s, int NP, int itermax,
            double pMut, double pCR, double pGbest,
            int replications, unsigned int seed, double * vals,
-           double *timeTaken, int * bestX,  int numCores, criteria phi);
+           double *timeTaken, int * bestX,  int numCores, criteria phi, int r);
 #endif

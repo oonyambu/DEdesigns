@@ -3,7 +3,7 @@
     "path": "D:/Work/fortran/UniPro/src/criteria.h",
     "project_path": "src/criteria.h",
     "type": "h",
-    "hash": "768120017",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1737095464781.0,
@@ -16,11 +16,11 @@
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1737868391,
+    "lastKnownWriteTime": 1737872203,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1737868391924,
+    "last_content_update": 1737872203694,
     "read_only": false,
     "read_only_alternatives": []
 }

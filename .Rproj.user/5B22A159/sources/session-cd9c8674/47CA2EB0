@@ -3,7 +3,7 @@
     "path": "D:/Work/fortran/UniPro/src/main.c",
     "project_path": "src/main.c",
     "type": "c",
-    "hash": "2004175408",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1737095346303.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "1,15",
+        "cursorPosition": "27,57",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1737870919,
+    "lastKnownWriteTime": 1737873467,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1737870919197,
+    "last_content_update": 1737873467175,
     "read_only": false,
     "read_only_alternatives": []
 }

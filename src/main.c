@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
    unsigned int seed = 12;
    static criteria PHI_FUNS[2] = {unipro, maxpro};
    DE_CC(n, m, n, NP, 1000, 0.2, 0.3, 0.9,
-     reps, seed, vals, &timeTaken, X, 15, PHI_FUNS[0]);
+     reps, seed, vals, &timeTaken, X, 15, PHI_FUNS[0], 15);
    printf("\n");
 
    for(int i = 0; i < (reps > 6?6:reps); ++i) printf("%8.5f ",vals[i]);
