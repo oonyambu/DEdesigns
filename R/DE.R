@@ -133,13 +133,13 @@ printFun <- function(x){
          if(len > 10) "...",
          sprintf("%5.3f",tail(tail(x, -3), 3)))|>
     toString()
-  cat(" phi Values", if(len>1)c(" [1:",len,"]"),": [", y, "]\n", sep="")
+  cat(" measure", if(len>1)c(" [1:",len,"]"),": [", y, "]\n", sep="")
 }
 
 #' @export
 print.DE <- function(x){
   cat(sprintf("\n Total Time Taken: %8.4f Secs\n", x$timeTaken))
-  printFun(x$optValues)
+  printFun(x$measure)
   invisible(x)
 }
 
