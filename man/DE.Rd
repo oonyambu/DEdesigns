@@ -43,9 +43,9 @@ maximinLHD(n, m, p = 15L, NP = 100L, itermax = 1000L, pMut = 0.2, pCR = 0.3,
 
 \item{seed}{seed to be set for reproducibility}
 
-\item{method}{The criterion to be optimized. Only UniPro, MaxPro, maximinLHD are implemented}
-
 \item{ncores}{number f cores to be used for parallelization/multi-threading.}
+
+\item{method}{The criterion to be optimized. Only UniPro, MaxPro, maximinLHD are implemented}
 }
 \value{
 A list with the phi value, the final design and total computational time taken:

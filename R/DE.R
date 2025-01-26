@@ -32,24 +32,21 @@ NULL
 #' @export
 #' @name DE
 #'
-DE <-function(n, m, s = n, p = 15L, NP = 100L, itermax = 1000L, pMut = 0.2,
+DE <-function(n, m, s = n, p = 15L, NP = 100L, itermax = 1500L, pMut = 0.2,
               pCR = 0.3, pGBest = 0.9, replicates = 1L,
-              seed = sample(1e7,1), cores = NULL,
+              seed = sample(1e7,1), ncores = NULL,
               method = c("UniPro", "MaxPro", "maximinLHD")){
   methods <- c("UniPro", "MaxPro", "maximinLHD")
-  if(is.character(method))
-    method <- charmatch(method, methods, 0)
-  else
-    method <- as.integer(method)
-  if(method < 1 || method > 3) stop("invalid method")
+  .method <- as.integer(charmatch(method[1], methods, 0))
+  if(.method < 1 || .method > 3) stop("invalid method", method[1])
 
-  if(is.null(cores)) cores <- as.integer(max(1, detectCores() - 2))
+  if(is.null(ncores)) ncores <- as.integer(max(1, detectCores() - 2))
 
   .Call("DE",
         as.integer(n), as.integer(m), as.integer(s), as.integer(NP),
         as.integer(itermax), as.double(pMut), as.double(pCR),
         as.double(pGBest), as.integer(replicates),
-        as.integer(seed), cores, method, as.integer(p), PACKAGE = 'DEdesigns')
+        as.integer(seed), ncores, .method, as.integer(p), PACKAGE = 'DEdesigns')
 }
 
 #' Uniform Projection Designs
@@ -69,13 +66,12 @@ DE <-function(n, m, s = n, p = 15L, NP = 100L, itermax = 1000L, pMut = 0.2,
 #'
 #'
 
-UniPro <-function(n, m, s = n, NP = 100, itermax = 1000, pMut = 0.2,
+UniPro <-function(n, m, s = n, NP = 100, itermax = 1500, pMut = 0.2,
                   pCR = 0.3, pGBest = 0.9, replicates = 1,
                   seed = sample(1e7,1), ncores = NULL){
-  mf <- match.call()
-  mf$method <- 1L
-  mf[[1]] <- quote(DE)
-  eval(mf)
+  DE(n = n, m = m, s = s, NP = NP, itermax = itermax, pMut = pMut,
+    pCR = pCR, pGBest = pGBest, replicates = replicates,
+    seed = seed, ncores = ncores, method = "UniPro")
 }
 
 #' Maximum Projection Designs
@@ -94,13 +90,12 @@ UniPro <-function(n, m, s = n, NP = 100, itermax = 1000, pMut = 0.2,
 #' @export
 #'
 #'
-MaxPro <-function(n, m, NP = 100, itermax = 1000, pMut = 0.2,
+MaxPro <-function(n, m, NP = 100, itermax = 1500, pMut = 0.2,
                   pCR = 0.3, pGBest = 0.9, replicates = 1,
                   seed = sample(1e7,1), ncores = NULL){
-  mf <- match.call()
-  mf$method <- 2L
-  mf[[1]] <- quote(DE)
-  eval(mf)
+  DE(n = n, m = m, NP = NP, itermax = itermax, pMut = pMut,
+     pCR = pCR, pGBest = pGBest, replicates = replicates,
+     seed = seed, ncores = ncores, method = "MaxPro")
 }
 
 #' Maximin-Distance Latin Hypercube Designs
@@ -117,13 +112,12 @@ MaxPro <-function(n, m, NP = 100, itermax = 1000, pMut = 0.2,
 #' maximinLHD(30, 3, replicates=10)
 #'
 #' @export
-maximinLHD <-function(n, m, p = 15L, NP = 100, itermax = 1000, pMut = 0.2,
+maximinLHD <-function(n, m, p = 15L, NP = 100, itermax = 1500, pMut = 0.2,
                   pCR = 0.3, pGBest = 0.9, replicates = 1,
                   seed = sample(1e7,1), ncores = NULL){
-  mf <- match.call()
-  mf$method <- 3L
-  mf[[1]] <- quote(DE)
-  eval(mf)
+  DE(n = n, m = m, p = p, NP = NP, itermax = itermax, pMut = pMut,
+     pCR = pCR, pGBest = pGBest, replicates = replicates,
+     seed = seed, ncores = ncores, method = "maximinLHD")
 }
 
 
@@ -179,7 +173,7 @@ measure <- function(x, s = nrow(x), p = 15L, method = c("UniPro", "MaxPro", "max
 #' @export
 #'
 unipromeasure <- function(x, s = nrow(x)){
-  measure(x, s, method = 'UniPro')
+  measure(x = x, s = s, method = 'UniPro')
 }
 
 
@@ -198,7 +192,7 @@ unipromeasure <- function(x, s = nrow(x)){
 #' @export
 #'
 maxpromeasure <- function(x){
-  measure(x, method = 'MaxPro')
+  measure(x = x, method = 'MaxPro')
 }
 
 #' maxminmeasure
@@ -215,7 +209,7 @@ maxpromeasure <- function(x){
 #' @export
 #'
 maximinmeasure <- function(x, p = 15){
-  measure(x, p, method = 'maximinLHD')
+  measure(x = x, p = p, method = 'maximinLHD')
 }
 
 

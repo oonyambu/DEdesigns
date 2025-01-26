@@ -1,0 +1,74 @@
+---
+title: "examples"
+output: html_document
+date: "2025-01-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Comparison with SLHD package:
+
+Check the measure function works correctly:
+
+```{r}
+a <- SLHD::maximinSLHD(1, 30, 3)
+a$measure
+DEdesigns::maximinmeasure(a$Design)
+```
+Compare boxplots for 20 replicates and time taken:
+```{r}
+library(ggplot2)
+deVsSLHD <- function(n, m, reps = 20){
+  default <- replicate(reps, SLHD::maximinSLHD(1, n, m))
+  a <- replicate(reps, 
+                SLHD::maximinSLHD(1, n, m, itermax = 10000))
+  
+  b <- DEdesigns::maximinLHD(n, m, replicates = reps)
+  Sys.sleep(1)
+  cat(sprintf("time SLHD: %8.4f\t DE: %8.4f\t 10000SLHD: %8.4f\n",
+              sum(unlist(a[5,])), b$timeTaken, sum(unlist(default[5,]))))
+  data.frame(SLHD = unlist(default[2,]), 
+             DE = b$measure, 
+             `10000SLHD` =unlist(a[2,]))|>
+    stack()|>
+    ggplot(aes(ind, values)) +
+    geom_boxplot()
+}
+deVsMaxPro <- function(n, m, reps = 20){
+  a <- replicate(reps, MaxPro::MaxProLHD(n, m))
+  b <- DEdesigns::MaxPro(n, m, replicates = reps)
+  Sys.sleep(1)
+  cat(sprintf("\ntime MaxPro: %8.4f\t DE: %8.4f\n",
+              sum(unlist(a[4,])), b$timeTaken))
+  
+  data.frame(MaxPro = sapply(a[1,], \(x)MaxPro::MaxProMeasure(x*n+0.5)), 
+             DE = b$measure)|>
+    stack()|>
+    ggplot(aes(ind, values)) +
+    geom_boxplot()
+} 
+```
+
+
+```{r, cache=TRUE}
+deVsSLHD(10, 3)
+deVsMaxPro(27, 10)
+deVsSLHD(30, 3)
+deVsSLHD(50, 5)
+deVsSLHD(70, 7)
+```
+
+
+```{r, cache=TRUE}
+deVsMaxPro(10, 3)
+deVsMaxPro(27, 10)
+deVsMaxPro(30, 3)
+deVsMaxPro(50, 5)
+deVsMaxPro(50, 15, NP = 200, itmax = 1500)
+deVsMaxPro(70, 7)
+deVsMaxPro(70, 20)
+```
+
+
