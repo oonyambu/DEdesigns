@@ -42,11 +42,12 @@ DE <-function(n, m, s = n, p = 15L, NP = 100L, itermax = 1500L, pMut = 0.2,
 
   if(is.null(ncores)) ncores <- as.integer(max(1, detectCores() - 2))
 
+  if(ncores < 2) stop("ncores must be at least 2")
   .Call("DE",
         as.integer(n), as.integer(m), as.integer(s), as.integer(NP),
         as.integer(itermax), as.double(pMut), as.double(pCR),
         as.double(pGBest), as.integer(replicates),
-        as.integer(seed), ncores, .method, as.integer(p), PACKAGE = 'DEdesigns')
+        as.integer(seed), as.integer(ncores), .method, as.integer(p), PACKAGE = 'DEdesigns')
 }
 
 #' Uniform Projection Designs
