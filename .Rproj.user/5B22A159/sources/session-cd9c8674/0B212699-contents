@@ -1,0 +1,288 @@
+Rcpp::sourceCpp("src/try1.cpp")
+#' @export
+UniPro.numeric <- function(n, m, s=n, NP=100,
+itermax=1500, pMut=0.2, pCR=0.3, pGBest=0.9,
+replicates = 1, method = c('C', 'Call', 'Fortran')){
+#x <-match.call()
+#method <- paste0(method[1], "Routine")
+#x[[2]] <- structure(x[[2]], class = method)
+#x[[1]] <- quote(UniPro)
+#x$method <- NULL
+#structure(eval(x), method = method)
+if(s>n) stop("s can not be greater than n")
+if(n%%s) stop("n must be a multiple of s")
+if(m > n) stop("m must be less than n")
+if(n < 2) stop("n must be greater than 1")
+stopifnot(c(n, m, s, NP, itermax) > 1)
+stopifnot(c(pMut, pGBest, pCR) > 0 )
+class(n) <- paste0(method[1], "Routine")
+UniPro(n, m, s, NP, itermax, pMut, pCR, pGBest, replicates)
+}
+Unipro(1,2)
+devtools::document()
+Unipro(1,2)
+UniPro(1,2)
+UniPro(10,2)
+UniPro(30,2)
+UniPro(30,3)
+UniPro(30,2)
+UniPro(30,3)
+UniPro(30,3)$opt
+b <- sapply(a, phi)
+a <- replicate(100, replicate(3, sample(30)), F)
+b <- sapply(a, phi)
+b
+global <- which.min(b)
+m <- ncol(a[[1]])
+n <- nrow(a[[1]])
+mutation <- function(k){
+#global
+potential <-  if(runif(1) < 0.9) a[[global]] else a[[k]]
+# mutate
+for(i in 1:m){
+if(runif(1) < 0.2) {
+v<- sample(n, 2)
+potential[v, i] <- potential[rev(v), i]
+}
+if(runif(1) < 0.3) potential[,i] <- a[,i]
+}
+potential
+}
+mutation(1)
+mutation <- function(k){
+#global
+potential <-  if(runif(1) < 0.9) a[[global]] else a[[k]]
+# mutate
+for(i in 1:m){
+if(runif(1) < 0.2) {
+v<- sample(n, 2)
+potential[v, i] <- potential[rev(v), i]
+}
+if(runif(1) < 0.3) potential[,i] <- a[[k]][,i]
+}
+potential
+}
+mutation(1)
+mutation <- function(k){
+#global
+potential <-  if(runif(1) < 0.9) a[[global]] else a[[k]]
+# mutate
+for(i in 1:m){
+if(runif(1) < 0.2) {
+v<- sample(n, 2)
+potential[v, i] <- potential[rev(v), i]
+}
+if(runif(1) < 0.3) potential[,i] <- a[[k]][,i]
+}
+p <- phi(potential)
+if(p < b[k]) {
+a[[k]] <<- potential
+b[[k]] <<- p
+}
+for(i in 1:100) mutation(i)
+mutation <- function(k){
+#global
+global <- which.min(b)
+potential <-  if(runif(1) < 0.9) a[[global]] else a[[k]]
+# mutate
+for(i in 1:m){
+if(runif(1) < 0.2) {
+v<- sample(n, 2)
+potential[v, i] <- potential[rev(v), i]
+}
+if(runif(1) < 0.3) potential[,i] <- a[[k]][,i]
+}
+p <- phi(potential)
+if(p < b[k]) {
+a[[k]] <<- potential
+b[[k]] <<- p
+}
+for(i in 1:100) mutation(i)
+mutation <- function(k){
+#global
+global <- which.min(b)
+potential <-  if(runif(1) < 0.9) a[[global]] else a[[k]]
+# mutate
+for(i in 1:m){
+if(runif(1) < 0.2) {
+v<- sample(n, 2)
+potential[v, i] <- potential[rev(v), i]
+}
+if(runif(1) < 0.3) potential[,i] <- a[[k]][,i]
+}
+p <- phi(potential)
+if(p < b[k]) {
+a[[k]] <<- potential
+b[[k]] <<- p
+}
+global <- which.min(b)
+}
+sapply(seq_along(a), mutation)
+mutation <- function(k){
+#global
+global <- which.min(b)
+potential <-  if(runif(1) < 0.9) a[[global]] else a[[k]]
+# mutate
+for(i in 1:m){
+if(runif(1) < 0.2) {
+v<- sample(n, 2)
+potential[v, i] <- potential[rev(v), i]
+}
+if(runif(1) < 0.3) potential[,i] <- a[[k]][,i]
+}
+p <- phi(potential)
+if(p < b[k]) {
+a[[k]] <<- potential
+b[[k]] <<- p
+}
+b[which.min(b)]
+}
+sapply(seq_along(a), mutation)
+Rcpp::sourceCpp("src/DE1.cpp")
+read.table(text=readClipboard())
+read.table(text=readClipboard())|>split(gl(2, 5))
+read.table(text=readClipboard())|>split(gl(2, 5))|>lapply(as.matrix)
+read.table(text=readClipboard())|>split(gl(2, 5))|>lapply(as.matrix)|>lapply(UniPro:::phi.CallRoutine)
+read.table(text=readClipboard())|>split(gl(3, 5))|>lapply(as.matrix)|>lapply(UniPro:::phi.CallRoutine)
+read.table(text=readClipboard())|>split(gl(5, 30))|>lapply(as.matrix)|>lapply(UniPro:::phi.CallRoutine)
+read.table(text=readClipboard())|>split(gl(5, 30))|>lapply(as.matrix)|>sapply(UniPro:::phi.CallRoutine)
+table(text=scan(text=readClipboard()))
+UniPro::UniPro(30, 3)
+UniPro::UniPro(30L, 3)
+UniPro:::UniPro.CRoutine(30, 3)
+UniPro:::UniPro.CRoutine(30, 3, replicates = 1)
+UniPro:::UniPro.CRoutine(30, 3, replicates = 2)
+UniPro:::UniPro.CRoutine(30, 3, replicates = 100)
+UniPro:::UniPro.CRoutine(50, 5, replicates = 100)
+UniPro:::UniPro.CRoutine(70, 7, replicates = 1)
+devtools::document()
+readClipboard()
+scan(text=paste0(readClipboard(), collapse = ' '))
+scan(text=paste0(readClipboard(), collapse = ' '))|>matrix(70)
+scan(text=paste0(readClipboard(), collapse = ' '))|>matrix(70)->a
+phi
+devtools::document()
+UniPro(10, 3)
+devtools::document()
+UniPro(10, 3)
+DE(10, 3)
+devtools::document()
+DE(10, 3)
+UniPro::phi(replicate(3, sample(10)))
+devtools::document()
+UniPro::phi(replicate(3, sample(10)))
+devtools::document()
+UniPro::phi(replicate(3, sample(10)))
+devtools::document()
+UniPro::phi(replicate(3, sample(10)))
+UniPro:::psi(replicate(3, sample(10)))
+set.seed(0);MaxPro::MaxProMeasure(replicate(3, sample(10,20, T)))
+set.seed(0);psi(replicate(3, sample(10,20, T)))
+set.seed(0);MaxPro::MaxProMeasure
+set.seed(0);psi(replicate(3, sample(10)))
+set.seed(0);MaxPro::MaxProMeasure(replicate(3, sample(10)))
+UniPro::DE(lm)
+lm
+charmatch("Uni", c("UniPro", "MaxPro"))
+devtools::document()
+pkgload::dev_help('UniPro')
+?UniPro
+?DE
+devtools::document()
+pkgload::dev_help('UniPro')
+?DE
+devtools::document()
+pkgload::dev_help('DE')
+devtools::document()
+pkgload::dev_help('DE')
+devtools::document()
+pkgload::dev_help('DE')
+devtools::document()
+pkgload::dev_help('DE')
+devtools::document()
+pkgload::dev_help('DE')
+devtools::document()
+pkgload::dev_help('DE')
+devtools::document()
+pkgload::dev_help('DE')
+devtools::document()
+pkgload::dev_help('DE')
+devtools::document()
+pkgload::dev_help('DE')
+devtools::document()
+pkgload::dev_help('DE')
+devtools::document()
+pkgload::dev_help('DE')
+devtools::document()
+pkgload::dev_help('DE')
+DE(10,3)
+DE(10,3, method = 1)
+devtools::document()
+pkgload::dev_help('DE')
+install.packages('SLHD')
+SLHD::maximinSLHD
+SLHD::maximinSLHD(1, 3)
+SLHD::maximinSLHD(1, 3, 2)
+SLHD::maximinSLHD(1, 5, 2)
+SLHD::maximinSLHD(1, 5, 2)->a
+min(dist(a$Design))
+min(dist(a$St))
+min(dist(a$Design))
+1/min(dist(a$Design))
+mean(dist(a$Design))
+mean(1/dist(a$Design))
+min(1/dist(a$Design))
+min(1/dist(a$Design)^15)
+min(dist(a$Design)^15)
+1/min(dist(a$Design)^15)
+cat(a$Design)
+a
+dist(t(a$Design))
+1/dist(t(a$Design))
+1/dist(a$Design)
+mean(1/dist(a$Design))
+mean(1/dist(a$Design))^(1/15)
+mean(1/dist(a$S))^(1/15)
+a$measure^15
+a$measure^15*10
+1/(a$measure^15*10)
+mean(1/dist(a$S))^(1/15)
+mean(1/dist(a$S,"man"))^(1/15)
+mean(1/dist(a$S,"man"))
+mean(1/dist(a$S,"min"))
+mean(1/dist(a$S,"min", p=15))
+mean(1/dist(a$S,"min", p=15))^(1/15)
+mean(1/dist(a$S,"minkowski", p=15))
+dist(a$S,"minkowski", p=15)
+mean(dist(a$S,"minkowski", p=15))
+mean(dist(a$S,"minkowski", p=15))^(1/15)
+mean(dist(a$S,"minkowski", p=15))^(15)
+mean(1/dist(a$S,"minkowski", p=7.5))
+mean(1/dist(a$D,"minkowski", p=7.5))
+mean(1/dist(a$D,"minkowski", p=7.5))^(1/15)
+mean(1/dist(a$D)^15)^(1/15)
+devtools::document()
+stats102A
+Stats102A
+devtools::document()
+UniPro::DE(10, 2)
+UniPro::DE(10, 2, method = 1)
+UniPro::DE(10, 2, method = 2)
+UniPro::DE(10, 2, method = 3)
+UniPro::DE(10, 2, method = 3)->a
+a
+SLHD::maximinSLHD(1,10,2)
+SLHD::maximinSLHD(1,30,3)
+UniPro::DE(30, 3, method = 3)->a
+a
+SLHD::maximinSLHD(1,70,7)
+UniPro::DE(70, 7, method = 3)->a
+a
+SLHD::maximinSLHD(1,70,7)->b
+b
+b$Design
+b$measure
+SLHD::maximinSLHD(1,70,7,itermax = 500)
+SLHD::maximinSLHD(1,70,7,itermax = 1000)[c('measure', 'time_rec')]
+UniPro::DE(70, 7, method = 3, reps=2)
+UniPro::DE(70, 7, method = 3, rep=2)

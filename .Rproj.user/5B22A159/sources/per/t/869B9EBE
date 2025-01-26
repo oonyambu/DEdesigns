@@ -1,0 +1,27 @@
+{
+    "id": "869B9EBE",
+    "path": "D:/Work/fortran/UniPro/src/init.c",
+    "project_path": "src/init.c",
+    "type": "c",
+    "hash": "1067563937",
+    "contents": "",
+    "dirty": false,
+    "created": 1737037765912.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "tempName": "Untitled2",
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "91,62",
+        "scrollLine": "84"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1737681177,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1737681177460,
+    "read_only": false,
+    "read_only_alternatives": []
+}

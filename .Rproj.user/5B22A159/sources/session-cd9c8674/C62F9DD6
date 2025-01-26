@@ -1,0 +1,26 @@
+{
+    "id": "C62F9DD6",
+    "path": "D:/Work/fortran/UniPro/src/criteria.c",
+    "project_path": "src/criteria.c",
+    "type": "c",
+    "hash": "1245367336",
+    "contents": "",
+    "dirty": false,
+    "created": 1737681209990.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "40,39",
+        "scrollLine": "33"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1737868862,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1737868862964,
+    "read_only": false,
+    "read_only_alternatives": []
+}

@@ -1,0 +1,13 @@
+Package: DEdesigns
+Type: Package
+Title: Using Differential Evolution for Design Construction
+Version: 0.1.0
+Author: Onyambu
+Maintainer: The package maintainer <oonyambu@gmail.com>
+Description: The package uses the differential evolution algorithm to construct
+    various experimental designs
+License:  MIT + file LICENSE
+Encoding: UTF-8
+LazyData: false
+RoxygenNote: 7.3.2
+NeedsCompilation: yes
